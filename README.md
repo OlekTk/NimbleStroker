@@ -61,9 +61,18 @@ communication between the Pendant and the Actuator:
 
 ## What does the code do?
 
-Out of the box, the code will drive the Actuator with a constant waveform
+### nimble.py
+
+This file provides means to communicate with the toy. 
+
+When run directly, the code will drive the Actuator with a constant waveform
 analogous to the one coming from the Pendant with moderate intensity,
-texture, and nature. Feel free to adapt the waveform to your needs.
+texture, and nature. 
 
 If you would like to spy on the protocol, there is also a commented-out
 code for capturing and analysing the frames.
+
+### sequencer.py
+
+This file demonstrates how to generate sets of simple waveforms, smoothly
+transitioning from one preset to another.
