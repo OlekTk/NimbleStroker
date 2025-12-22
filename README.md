@@ -49,6 +49,22 @@ To control the NimbleStroker Actuator, you have to connect only three wires.
 To build the interface, you can use and old (4 wire!) telephone cable
 with RJ11 connector and a soldering iron.
 
+## Troubleshooting
+
+### Windows
+
+If your system crashes during operation of
+the script try updating the USB serial port drivers.
+
+If you see that the frames are arriving in blocks, during the data capture,
+you might want to reduce your serial port timeout (look for advanced
+settings of the serial port in the Device Manager).
+
+### Linux
+
+You might have to construct the NimbleComm class with a particular port name,
+as the port guessing procedure will likely fail.
+
 ## Protocol
 
 The protocol is [nicely documented](https://github.com/ExploratoryDevices/NimbleConModule/blob/main/docs/hardware-specs.md) in the ExploratoryDevices repository.
@@ -67,7 +83,7 @@ This file provides means to communicate with the toy.
 
 When run directly, the code will drive the Actuator with a constant waveform
 analogous to the one coming from the Pendant with moderate intensity,
-texture, and nature. 
+texture, and nature.
 
 If you would like to spy on the protocol, there is also a commented-out
 code for capturing and analysing the frames.

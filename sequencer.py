@@ -55,12 +55,14 @@ def main():
     # here is a plan of the excitation waveforms
     pts = (
         Params(  0, 100, 1.0,   0, 9),
-        Params(180, 500, 1.0,   0, 9),
-        Params(240, 500, 3.0,   0, 9),
-        Params(300, 500, 3.0, 300, 9),
-        Params(360, 500, 3.0, 300, 16),
-        Params(420, 500, 4.0, 300, 16),
-        Params(480, 500, 4.0, 300, 16),
+        Params(180, 350, 1.0,   0, 9),
+        Params(240, 350, 3.0,   0, 9),
+        Params(300, 350, 3.0, 200, 9),
+        Params(360, 350, 3.0, 200, 16),
+        Params(420, 350, 4.0, 200, 16),
+        Params(480, 350, 4.0, 200, 16),
+        Params(540, 550, 4.0, 350, 16),
+        Params(600, 550, 6.0, 350, 18),
     )
     interp = interpolator(pts)
 
