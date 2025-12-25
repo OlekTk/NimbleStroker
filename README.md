@@ -18,8 +18,8 @@ as under Pendant control.
 ## License
 
 This is free and unencumbered software released into the public domain.
-See LICENSE.md for details. Do not blame me if your d**k falls off
-or the house catches fire as a result of using this module.
+See LICENSE.md for details. Do not blame me if your house catches fire
+or your d**k falls off as a result of using this module.
 
 ## Electrical Interface
 
@@ -46,7 +46,7 @@ To control the NimbleStroker Actuator, you have to connect only three wires.
 | TX           | RX or RxD     |
 | RX           | TX or TxD     |
 
-To build the interface, you can use and old (4 wire!) telephone cable
+To build the interface, you can use an old (4 wire!) telephone cable
 with RJ11 connector and a soldering iron.
 
 ## Troubleshooting
@@ -92,3 +92,9 @@ code for capturing and analysing the frames.
 
 This file demonstrates how to generate sets of simple waveforms, smoothly
 transitioning from one preset to another.
+
+### panel.py
+
+A simple Tcl/Tk GUI for controlling the toy with buttons and sliders.
+Useful for a manually controlled play and for determining the optimal
+parameter sets for the sequencer.
