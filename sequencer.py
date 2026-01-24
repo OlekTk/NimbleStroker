@@ -6,7 +6,7 @@ from math import sin, pi
 # Represents a set of toy parameters that should be activated at a specific time
 class Params:
     def __init__(self, t, ampl, freq, ampl2, freq2):
-        self.t = t              # time [s]
+        self.t = t              # time (how fast shall be these settings applied) [s]
         self.ampl = ampl        # amplitude of the base harmonic
         self.freq = freq        # frequency of the base harmonic
         self.ampl2 = ampl2      # amplitude of the extra harmonic
@@ -20,21 +20,22 @@ class Params:
             self.ampl2 *= scale
 
     def __str__(self):
-        return "%4.1f,\ta=%.1f,\tf=%.1f,\ta2=%.1f,\tf2=%.1f" % (self.t, self.ampl, self.freq, self.ampl2, self.freq2)
+        return "t=%4.1f,\ta=%.1f,\tf=%.1f,\ta2=%.1f,\tf2=%.1f" % (self.t, self.ampl, self.freq, self.ampl2, self.freq2)
 
 
 # A Python generator providing smooth transitions between points
 def interpolator(pts):
-    t_start = now()
+    t_ref = now()
     stage = 0
     while True:
-        t = now() - t_start
+        t = now() - t_ref
         if stage < len(pts) - 1:
             p_prev = pts[stage]
             p_next = pts[stage + 1]
             if t > p_next.t:
                 stage += 1
-            dt = (t - p_prev.t) / (p_next.t - p_prev.t)
+                t_ref += p_next.t
+            dt = t / p_next.t
         else:
             # if there are no more stages, keep the last preset
             p_prev = pts[stage]
@@ -54,21 +55,24 @@ def interpolator(pts):
 def main():
     # here is a plan of the excitation waveforms
     pts = (
-        Params(  0, 100, 1.0,   0, 9),
-        Params(180, 350, 1.0,   0, 9),
-        Params(240, 350, 3.0,   0, 9),
-        Params(300, 350, 3.0, 200, 9),
-        Params(360, 350, 3.0, 200, 16),
-        Params(420, 350, 4.0, 200, 16),
-        Params(480, 350, 4.0, 200, 16),
-        Params(540, 550, 4.0, 350, 16),
-        Params(600, 550, 6.0, 350, 18),
+        Params(  0, 350, 1.0,   0, 9),
+        Params( 60, 350, 1.0,   0, 9),
+        Params(120, 350, 3.0,   0, 9),
+        Params( 60, 350, 3.0, 200, 9),
+        Params( 60, 350, 3.0, 200, 16),
+        Params( 60, 350, 4.0, 200, 16),
+        Params( 60, 350, 4.0, 200, 16),
+        Params( 60, 550, 4.0, 350, 16),
+        Params( 60, 550, 6.0, 350, 18),
+        Params( 60, 800, 10.0,  0, 18),
     )
     interp = interpolator(pts)
 
+    t_total = sum(p.t for p in pts)
+
     c = NimbleComm()
 
-    t = now()
+    t_start = t = now()
     t_step = 0.002  # Pendant sends a frame every 2 ms
     t_next = t + t_step
     t_last = t
@@ -89,7 +93,7 @@ def main():
         # print current setpoint every second
         if t > t_print:
             t_print += 1
-            print(pt)
+            print("(%4.0f/%.0f) %s" % (t - t_start, t_total, str(pt)))
 
         # make sure we won't exceed hardware limits
         pt.apply_limit()
